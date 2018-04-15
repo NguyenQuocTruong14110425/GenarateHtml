@@ -6,12 +6,19 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "browserify": "^16.2.0",
     "cookie-parser": "~1.4.3",
+    "create-html": "^4.1.0",
     "debug": "~2.6.9",
+    "ejs": "^2.5.8",
     "express": "~4.16.0",
+    "fs": "0.0.1-security",
+    "gulp": "^3.9.1",
+    "html-template": "^1.2.2",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "morgan": "~1.9.0",
+    "semver": "^5.5.0",
     "stylus": "0.54.5"
   }
 }

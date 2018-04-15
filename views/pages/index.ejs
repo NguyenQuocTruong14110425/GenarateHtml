@@ -1,0 +1,178 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> GENERATOR TOOL </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="./css/font-awesome.css" rel="stylesheet">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="./css/app.css">
+    <link rel="stylesheet" href="./css/vendor.css">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        // function show()
+        // {
+		
+        //         console.log('select_link clicked');
+        //         var data = {}
+        //         data.count=3
+        //         $.ajax({
+        //             type: 'POST',
+        //             data: JSON.stringify(data),
+        //             contentType: 'application/json',
+        //             url: 'http://localhost:3000/addfield',						
+        //             success: function(data) {
+        //                 $('#results').html(data);
+        //             },
+        //             error:function(){
+        //                 console.log('error');
+        //             }
+        //         });
+        //     }
+        $(document).ready(function(){
+        $("#btn2").click(function(){
+            var data = {}
+            data.count=4
+            $.post("http://localhost:3000/addfield",data, function(data){
+                
+            alert("Data: " + data );
+        });
+        })
+    });
+    </script>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="app" id="app">
+            <header class="header">
+                <% include ../partials/header %>
+            </header>
+            <aside class="sidebar">
+                <% include ../partials/sidebar %>
+            </aside>
+            <div class="sidebar-mobile-menu-handle" id="sidebar-mobile-menu-handle"></div>
+            <div class="mobile-menu-handle"></div>
+            <div id="body">
+
+                <article class="content items-list-page">
+                    <div class="title-search-block">
+                        <div class="title-block">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="title"> GENERATOR DASHBOARD
+                                    </h3>
+                                    <p class="title-description">
+                                        Nhập đầy đủ thông tin field cần thiết để thiết lập một màn hình cơ bản!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- form render-->
+                    <div class="card items">
+                        <form id="testimonial form" method = "POST" action = "/basicrender">
+                            <div class="form-group">
+                                <label class="control-label">Tên bảng</label>
+                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập thông tin tên bảng: vd: Sal_ProductivenConver">
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Dịch tên màn hình tiếng việt</label>
+                                        <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập dịch tiếng việt: vd: Nhân viên đang làm việc">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Dịch tên màn hình tiếng anh</label>
+                                        <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập dịch tiếng anh vd: Employee working">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                            <div class="form-group">
+                                <label class="control-label">Người tạo</label>
+                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin người làm/ người tạo">
+                            </div>
+                            </div>
+                            <div class="col-3">
+                            <div class="form-group">
+                                <label class="control-label">Id Task mantis</label>
+                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin id task làm việc tren mantis.vnresource.net">
+                            </div>
+                            </div>
+                            <div class="col-3">
+                            <div class="form-group">
+                                <label class="control-label">Ngày tạo</label>
+                                <input type="date" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin ngày tạo/ ngày làm">
+                            </div>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Nội dung task</label>
+                                <textarea type="text" rows="2" id="shortdescription" name="shortdescription" class="form-control underlined" placeholder="Nhập tiêu đề, nội dung ngắn gọn mô tả cho màn hình"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label class="control-label">Số  field entity</label>
+                                            <input type="number" id="namefield" name="namefield" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Số field model</label>
+                                        <input type="number" id="namefield" name="namefield" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Số field cho lưới</label>
+                                        <input type="number" id="translatevn" name="translatevn" class="form-control underlined" placeholder="dịch tiếng việt cho field">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Số field model search</label>
+                                        <input type="number" id="translateen" name="translateen" class="form-control underlined" placeholder="dịch tiếng anh cho field">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label class="control-label">Số Store hoặc funtion</label>
+                                            <input type="number" id="namefield" name="namefield" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Số field enum</label>
+                                        <input type="number" id="namefield" name="namefield" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                    </div>
+                                    </div>
+                            </div>
+                        <button style="float: right;"type="submit" class="btn btn-primary">Next step</button>
+                    </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+    <script src="./js/vendor.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+
+</html>

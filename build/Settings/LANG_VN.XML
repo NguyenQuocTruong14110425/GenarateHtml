@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+        <NewDataSet>
+          <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+            <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="Language" msdata:UseCurrentLocale="true">
+              <xs:complexType>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element name="Language">
+                    <xs:complexType>
+                      <xs:attribute name="Name" type="xs:string" use="required" />
+                      <xs:attribute name="Value" type="xs:string" />
+                    </xs:complexType>
+                  </xs:element>
+                </xs:choice>
+              </xs:complexType>
+              <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+                <xs:selector xpath=".//Language" />
+                <xs:field xpath="@Name" />
+              </xs:unique>
+            </xs:element>
+          </xs:schema>
+
+          <!-- Sal_ProductiveConveyor [Truong.Nguyen][16/01/2018][952661] -->
+           <Language Name="HRM_Sal_HoldSalary_IsRestoreRequest" Value="Tập tin" />
+ <Language Name="Hre_FacilityIssue_EvictionNo" Value="Số biên bản" />
+ <Language Name="EvictAmount" Value="Số lượng chưa thu hồi" />
+
+          <!-- end Sal_ProductiveConveyor -->
+
+          </NewDataSet>

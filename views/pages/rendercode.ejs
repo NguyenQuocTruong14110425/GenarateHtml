@@ -1,0 +1,330 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> GENERATOR TOOL </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="./css/font-awesome.css" rel="stylesheet">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="./css/app.css">
+    <link rel="stylesheet" href="./css/vendor.css">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        // function show()
+        // {
+		
+        //         console.log('select_link clicked');
+        //         var data = {}
+        //         data.count=3
+        //         $.ajax({
+        //             type: 'POST',
+        //             data: JSON.stringify(data),
+        //             contentType: 'application/json',
+        //             url: 'http://localhost:3000/addfield',						
+        //             success: function(data) {
+        //                 $('#results').html(data);
+        //             },
+        //             error:function(){
+        //                 console.log('error');
+        //             }
+        //         });
+        //     }
+        $(document).ready(function(){
+        $("#btn2").click(function(){
+            var data = {}
+            data.count=4
+            $.post("http://localhost:3000/addfield",data, function(data){
+                
+            alert("Data: " + data );
+        });
+        })
+    });
+    </script>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="app" id="app">
+            <header class="header">
+                <% include ../partials/header %>
+            </header>
+            <aside class="sidebar">
+                <% include ../partials/sidebar %>
+            </aside>
+            <div class="sidebar-mobile-menu-handle" id="sidebar-mobile-menu-handle"></div>
+            <div class="mobile-menu-handle"></div>
+            <div id="body">
+
+                <article class="content items-list-page">
+                    <div class="title-search-block">
+                        <div class="title-block">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="title"> GENERATOR DASHBOARD
+                                    </h3>
+                                    <p class="title-description">
+                                        Nhập đầy đủ thông tin field cần thiết để thiết lập một màn hình cơ bản!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- form render-->
+                    <div class="card items">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" role="tab" href="#basic" data-toggle="tab">Thông tin cơ bản</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="tab" href="#field" data-toggle="tab">Thông tin field</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="tab" href="#permission" data-toggle="tab">phân quyền</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="tab" href="#enum" data-toggle="tab">Enum</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="tab" href="#sql" data-toggle="tab">Store SQL</a>
+                            </li>
+                        </ul>
+                        <form id="testimonial form" method = "POST" action = "/rendercode">
+                        <div class="tab-content">
+                            <!-- table basic info -->
+                            <div role="tabpanel" class="tab-pane active fade show" id="basic">
+                               
+                            </div>
+                            <!-- table field -->
+                            <div role="tabpanel" class="tab-pane fade show" id="field">
+                                <!-- field dùng cho model -->
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <div class="header-block">
+                                            <p class="title"> Field dùng cho model </p>
+                                        </div>
+                                        <button type="button"  id="btn2" class="btn btn-default">Thêm Field</button>
+                                    </div>
+                                    <div class="card-block">
+                                            <% totalFielModel = 1 %> 
+                                     <% for(var i = 0; i < totalFielModel; i++) { %> 
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Kiểu dữ liệu</label>
+                                                    <select id="typedata<%= i %>" name="typedata<%= i %>" class="form-control" placeholder="Chọn 1 kiểu dữ liệu" >
+                                                        <option>string</option>
+                                                        <option>bool ?</option>
+                                                        <option>Guil</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Tên Field</label>
+                                                    <input type="text" id="namefield<%= i %>" name="namefield<%= i %>" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Dịch tiếng việt</label>
+                                                    <input type="text" id="translatevn<%= i %>" name="translatevn<%= i %>" class="form-control underlined" placeholder="dịch tiếng việt cho field">
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Dịch tiếng anh</label>
+                                                    <input type="text" id="translateen<%= i %>" name="translateen<%= i %>" class="form-control underlined" placeholder="dịch tiếng anh cho field">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <%}%>
+
+                                    </div>
+                                </div>
+                                <!-- field dùng cho enity -->
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <div class="header-block">
+                                            <p class="title"> Field dùng cho enity </p>
+
+                                        </div>
+                                        <button type="button" class="btn btn-default">Thêm Field</button>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Kiểu dữ liệu</label>
+                                                    <select id="catalog" class="form-control" placeholder="Chọn 1 kiểu dữ liệu" name="catalog">
+                                                        <option>string</option>
+                                                        <option>bool ?</option>
+                                                        <option>Guil</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Tên Field</label>
+                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Dịch tiếng việt</label>
+                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="dịch tiếng việt cho field">
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Dịch tiếng anh</label>
+                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="dịch tiếng anh cho field">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- field dùng cho lưới -->
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <div class="header-block">
+                                            <p class="title"> Field dùng cho lưới </p>
+
+                                        </div>
+                                        <button type="button" class="btn btn-default">Thêm Field</button>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Tên Field</label>
+                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- field dùng cho model search -->
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <div class="header-block">
+                                            <p class="title"> Field dùng cho model search </p>
+
+                                        </div>
+                                        <button type="button" class="btn btn-default">Thêm Field</button>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Kiểu dữ liệu</label>
+                                                    <select id="catalog" class="form-control" placeholder="Chọn 1 kiểu dữ liệu" name="catalog">
+                                                        <option>string</option>
+                                                        <option>bool ?</option>
+                                                        <option>Guil</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Tên Field</label>
+                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Dịch tiếng việt</label>
+                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="dịch tiếng việt cho field">
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Dịch tiếng anh</label>
+                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="dịch tiếng anh cho field">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                        <!-- table permission -->
+                        <div role="tabpanel" class="tab-pane fade show" id="permission">
+                            <div class="form-group">
+                                <label class="control-label">Key phân quyền cho màn hình</label>
+                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập thông tin key phân quyền vd: Index, ProductiveCoveyor,...">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Key phân quyền cho button</label>
+                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin key phân quyền cho button vd: btnTrafic">
+                            </div>
+                        </div>
+                        <!-- table enum -->
+                        <div role="tabpanel" class="tab-pane fade show" id="enum">
+                            <!-- field dùng cho model search -->
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <div class="header-block">
+                                        <p class="title"> Enum đặc biệt </p>
+                                    </div>
+                                    <button type="button" class="btn btn-default">Thêm Enum</button>
+                                </div>
+                                <div class="card-block">
+                                    <div class="form-group">
+                                        <label class="control-label">Tên Enum</label>
+                                        <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập tên enum: vd: TypeQuantity">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Tên thành phần enum</label>
+                                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập tên thành phần của enum: vd: E_OverTime">
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="form-group">
+                                                <label class="control-label">Mô tả</label>
+                                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập thông tin mô tả cho enum vd: Tăng ca">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- table sql-->
+                        <div role="tabpanel" class="tab-pane fade show" id="sql">
+                            <button type="button" class="btn btn-default">Thêm store</button>
+                            <div class="form-group">
+                                <label class="control-label">Tên store dùng để lọc, search</label>
+                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập thông tin tên store lọc: vd: Cat_sp_get_HealthTreatmentPlace">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Tên store dùng để lấy một đối tượng</label>
+                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin tên store lấy một ID vd: Cat_sp_get_HealthTreatmentPlaceByID">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Tên store dùng để lấy nhiều đối tượng</label>
+                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin tên store lấy nhiều ID vd: Cat_sp_get_HealthTreatmentPlaceIDs">
+                            </div>
+                            <span>Lưu ý: Không lấy thông tin tiền tố hrm_</span>
+                        </div>
+                        <p id="demo"></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Start Render</button>
+                    </form>
+                </article>
+
+
+
+            </div>
+        </div>
+    </div>
+    <script src="./js/vendor.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+
+</html>

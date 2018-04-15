@@ -1,0 +1,153 @@
+﻿@using HRM.Infrastructure.Utilities;
+@using HRM.Infrastructure.Security
+@using HRM.Infrastructure.Utilities
+@using HRM.Presentation.Payroll.Models;
+@model <%=ModelName%>
+@{
+Layout = null;
+var _hrm_Main_Web = ConstantPathWeb.Hrm_Main_Web;
+var _hrm_Hr_Service = ConstantPathWeb.Hrm_Hre_Service;
+var _hrm_Cat_Service = ConstantPathWeb.Hrm_Hre_Service;
+var _hrm_Sys_Service = ConstantPathWeb.Hrm_Sys_Service;
+var _hrm_Hr_Services = ConstantPathWeb.Hrm_Hre_Service;
+var _hrm_Hr_Web = ConstantPathWeb.Hrm_Main_Web;
+var controller = ViewContext.RouteData.Values["Controller"].ToString();
+var action = ViewContext.RouteData.Values["Action"].ToString();
+var screen = controller + "/" + action;
+}
+@{
+var window = new WindowBuilderInfo
+{
+Name = "window_<%=WindowName%>",
+Visible = false,
+Width = 700,
+LoadContentFrom = @_hrm_Main_Web + "<%=Controller%>/<%=Action%>/",
+};
+}
+@(Html.VnrWindow(window))
+@Html.Hidden("Screen", screen)
+<script type="text/javascript">
+var titleCreate = '@Html.Raw(ConstantDisplay.<%=TitlePopUpCreate%>.TranslateString())';
+var titleUpdate = '@Html.Raw(ConstantDisplay.<%=TitlePopUpEdit%>.TranslateString())';
+$(document).ready(function () {
+ShowHidePanel();
+var url = '@_hrm_Main_Web' + "<%=Controller%>/<%=Action%>/";
+EditGridPopUp("@ConstantControlName.<%=GridName%>", "window_<%=WindowName%>", url, '@ConstantPermission.<%=KeyPermission%>', titleUpdate);
+});
+function EvenBtnProductive() {
+ReadGrid('@ConstantControlName.<%=GridName%>');
+};
+function EvenCreateProductive() {
+PopUpCreate("window_<%=WindowName%>", titleCreate, '@ConstantPermission.<%=KeyPermission%>');
+};
+$('#btnDelete').click(function (e) {
+if (selectedIds.length == 0) {
+DeleteFail();
+return;
+}
+e.preventDefault();
+DeleteSelected("@ConstantControlName.<%=GridName%>", '@_hrm_Main_Web' + "<%=Controller%>/<%=Action%>/", selectedIds, '@ConstantPermission.<%=KeyPermission%>');
+});
+
+function filterFieldInfo() {
+// viết code lấy nội dung truyền vào model
+};
+</script>
+<div class="panel-wrap">
+<div id="main-content">
+<div class="widget">
+<h3>
+<!--Dòng title cho biết đang ở form nào và link quay lại-->
+@Html.MvcSiteMap().SiteMapPath("BootstrapSiteMapPathHelperModel")
+<span class="collapse k-icon k-i-arrowhead-n"></span>
+</h3>
+<!--Bất đầu nôi dung tìm kiếm-->
+<div class="contendSearchWidge" style="overflow:visible">
+<form id="form-search">
+<%=InputField%>
+</form>
+</div>
+<!--kết thúc nôi dung tìm kiếm-->
+</div>
+</div>
+</div>
+<!--bắt đầu khung nôi dung button-->
+<div class="commandToolBarWidge">
+@Html.VnrButton(new ButtonBuilderInfo() { EventClick = "<%=EventCreate%>", Name = "btnCreate", Content = ConstantAction.HRM_Common_Create.TranslateString(), ImageUrl = ConstantPath.IconAddNewPath })
+@Html.VnrButton(new ButtonBuilderInfo() { EventClick = "<%=EventSearch%>", Name = "btnSearch", Content = ConstantAction.HRM_Common_Search.TranslateString(), ImageUrl = ConstantPath.IconSearchPath })
+<div style="float: right">
+<div class="btn-group">
+<button type="button" class="k-button btn-default dropdown-toggle" data-toggle="dropdown">
+<img src="@ConstantPath.IconExportPath" width="15" height="15" />
+@ConstantDisplay.HRM_Common_ExportDropdown_Title.TranslateString()
+<span class="caret"></span>
+</button>
+<ul class="dropdown-menu pull-right" role="menu">
+<li>@Html.VnrButton(new ButtonBuilderInfo() { Name = "btnExportSelected", Content = ConstantAction.HRM_Common_ExportSelected.TranslateString(), ImageUrl = ConstantPath.IconExportPath, CssStyle = "border:0" })</li>
+<li>@Html.VnrButton(new ButtonBuilderInfo() { Name = "btnExportAll", Content = ConstantAction.HRM_Common_ExportAll.TranslateString(), ImageUrl = ConstantPath.IconExportPath, CssStyle = "border:0" })</li>
+</ul>
+</div>
+@Html.VnrButton(new ButtonBuilderInfo() { Name = "btnChangeColumn", Content = ConstantDisplay.HRM_ChangeColumn.TranslateString(), ImageUrl = ConstantPath.Hrm_ChangeColumnIcon })
+@Html.VnrButton(new ButtonBuilderInfo() { Name = "btnDelete", Content = ConstantAction.HRM_Common_Delete.TranslateString(), ImageUrl = ConstantPath.IconDeletePath })
+</div>
+</div>
+<!--kết thúc khung nôi dung button-->
+<div>
+<!--Khai báo các thông tin cho Grid-->
+@using HRM.Presentation.Payroll.Models
+@using HRM.Presentation.UI.Controls.Kendo
+@{
+var columnMode = string.Empty;
+var defaultColumnMode = string.Empty;
+var userId = Session[SessionObjects.UserId];
+//Lấy tên lưới cộng thêm tên của control và action để tránh trùng nhau
+var gridControlName = ConstantControlName.<%=GridName%> + "__<%=Controller%>_<%=Action%>";
+HRM.Presentation.Main.Controllers.Sys_ColumnModeController control = new HRM.Presentation.Main.Controllers.Sys_ColumnModeController();
+//Get thông tin cấu hình trong database
+GridBuilderModel gridInfo = control.GetGridBuilderInfo(userId + "," + gridControlName);
+var grid = new GridBuilderInfo
+{
+Name = ConstantControlName.HRM_gridSal_Producttive_Grid_Name,
+ReadActionUrl = @_hrm_Hr_Services + "<%=APIController%>/<%=NameAPI%>/",
+ReadData = "filterFieldInfo"
+};
+
+grid.ValueFields = new string[]
+{
+<%=ModelName%>.FieldNames.<%=FieldName%>,
+};
+grid.SizeFields = new Dictionary<string, int>()
+{
+{<%=ModelName%>.FieldNames.<%=FieldName%>, <%=SizeField%>},
+};
+grid.DisplayFields = new Dictionary<string, string>()
+{
+{<%=ModelName%>.FieldNames.<%=FieldName%>, ConstantDisplay.<%=KeyConstantDisplay%>},
+};
+grid = control.GetGridBuilderInfoNew(userId + "," + gridControlName, grid);
+defaultColumnMode = control.SetDefaultGridBuilderInfo(grid);
+}
+<!--Khởi tạo Grid-->
+@(Html.VnrGrid<Sal_ProductiveModel>(grid))
+<script>
+ClickButtonChangeColum("btnChangeColumn", "<%=ModelName%>");
+$(document).ready(function () {
+$("#" + '@ConstantControlName.HRM_ChangeColum_Grid_Name').val('@gridControlName');
+$("#" + '@ConstantControlName.HRM_ChangeColum_ColumMode_Name').val('@Html.Raw(columnMode)');
+$("#" + '@ConstantControlName.HRM_ChangeColum_Default_ColumMode_Name').val('');
+$("#" + '@ConstantControlName.HRM_ChangeColum_Default_ColumMode_Name').val('@Html.Raw(defaultColumnMode)');
+});
+</script>
+</div>
+@{
+var listValueField = grid.ValueFields;
+var valueFields1 = string.Empty;
+if (listValueField != null)
+{
+for (int i = 0; i < listValueField.Count(); i++)
+{
+valueFields1 += "," + listValueField[i];
+}
+}
+}
+@Html.Hidden("valueFieldsGrid", valueFields1)
