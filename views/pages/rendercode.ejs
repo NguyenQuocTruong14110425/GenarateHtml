@@ -14,37 +14,6 @@
     <link rel="stylesheet" href="./css/vendor.css">
     <script src="./js/jquery.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        // function show()
-        // {
-		
-        //         console.log('select_link clicked');
-        //         var data = {}
-        //         data.count=3
-        //         $.ajax({
-        //             type: 'POST',
-        //             data: JSON.stringify(data),
-        //             contentType: 'application/json',
-        //             url: 'http://localhost:3000/addfield',						
-        //             success: function(data) {
-        //                 $('#results').html(data);
-        //             },
-        //             error:function(){
-        //                 console.log('error');
-        //             }
-        //         });
-        //     }
-        $(document).ready(function(){
-        $("#btn2").click(function(){
-            var data = {}
-            data.count=4
-            $.post("http://localhost:3000/addfield",data, function(data){
-                
-            alert("Data: " + data );
-        });
-        })
-    });
-    </script>
 </head>
 
 <body>
@@ -79,10 +48,10 @@
                     <div class="card items">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" role="tab" href="#basic" data-toggle="tab">Thông tin cơ bản</a>
+                                <a class="nav-link" role="tab" href="#basic" data-toggle="tab">Thông tin cơ bản</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" role="tab" href="#field" data-toggle="tab">Thông tin field</a>
+                                <a class="nav-link  active" role="tab" href="#field" data-toggle="tab">Thông tin field</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" role="tab" href="#permission" data-toggle="tab">phân quyền</a>
@@ -94,237 +63,255 @@
                                 <a class="nav-link" role="tab" href="#sql" data-toggle="tab">Store SQL</a>
                             </li>
                         </ul>
-                        <form id="testimonial form" method = "POST" action = "/rendercode">
-                        <div class="tab-content">
-                            <!-- table basic info -->
-                            <div role="tabpanel" class="tab-pane active fade show" id="basic">
-                               
-                            </div>
-                            <!-- table field -->
-                            <div role="tabpanel" class="tab-pane fade show" id="field">
-                                <!-- field dùng cho model -->
-                                <div class="card card-default">
-                                    <div class="card-header">
-                                        <div class="header-block">
-                                            <p class="title"> Field dùng cho model </p>
+                        <form id="testimonial form" method="POST" action="/rendercode">
+                            <div class="tab-content">
+                                <!-- table basic info -->
+                                <div role="tabpanel" class="tab-pane fade show" id="basic">
+
+                                </div>
+                                <!-- table field -->
+                                <div role="tabpanel" class="tab-pane active fade show" id="field">
+                                    <!-- field dùng cho model -->
+                                    <div class="card card-default">
+                                        <div class="card-header">
+                                            <div class="header-block">
+                                                <p class="title"> Field dùng cho model </p>
+                                            </div>
                                         </div>
-                                        <button type="button"  id="btn2" class="btn btn-default">Thêm Field</button>
+                                        <div class="card-block">
+                                            <% for(var i = 0; i < result.modelfield; i++) { %>
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Kiểu dữ liệu
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <select id="typeFieldModel<%=i+1%>" name="typeFieldModel<%=i+1%>" class="form-control" placeholder="Chọn 1 kiểu dữ liệu">
+                                                                <option>string</option>
+                                                                <option>bool ?</option>
+                                                                <option>Guil</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Tên Field
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <input type="text" id="nameFieldModel<%=i+1%>" name="nameFieldModel<%=i+1%>" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Dịch tiếng việt
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <input type="text" id="translateFieldModelvn<%=i+1%>" name="translateFieldModelvn<%=i+1%>" class="form-control underlined"
+                                                                placeholder="dịch tiếng việt cho field">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Dịch tiếng anh
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <input type="text" id="translateFieldModelen<%=i+1%>" name="translateFieldModelen<%=i+1%>" class="form-control underlined"
+                                                                placeholder="dịch tiếng anh cho field">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <%}%>
+
+                                        </div>
                                     </div>
-                                    <div class="card-block">
-                                            <% totalFielModel = 1 %> 
-                                     <% for(var i = 0; i < totalFielModel; i++) { %> 
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Kiểu dữ liệu</label>
-                                                    <select id="typedata<%= i %>" name="typedata<%= i %>" class="form-control" placeholder="Chọn 1 kiểu dữ liệu" >
-                                                        <option>string</option>
-                                                        <option>bool ?</option>
-                                                        <option>Guil</option>
-                                                    </select>
-                                                </div>
+                                    <!-- field dùng cho enity -->
+                                    <div class="card card-default">
+                                        <div class="card-header">
+                                            <div class="header-block">
+                                                <p class="title"> Field dùng cho enity </p>
+
                                             </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Tên Field</label>
-                                                    <input type="text" id="namefield<%= i %>" name="namefield<%= i %>" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                        </div>
+                                        <div class="card-block">
+                                            <% for(var i = 0; i < result.entityfield; i++) { %>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Kiểu dữ liệu
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <select id="typeFieldEntity<%=i+1%>" name="typeFieldEntity<%=i+1%>" class="form-control" placeholder="Chọn 1 kiểu dữ liệu">
+                                                                <option>string</option>
+                                                                <option>bool ?</option>
+                                                                <option>Guil</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Tên Field
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <input type="text" id="nameFieldEntity<%=i+1%>" name="nameFieldEntity<%=i+1%>" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <%}%>
+                                        </div>
+                                    </div>
+                                    <!-- field dùng cho lưới -->
+                                    <div class="card card-default">
+                                        <div class="card-header">
+                                            <div class="header-block">
+                                                <p class="title"> Field dùng cho lưới </p>
+
                                             </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Dịch tiếng việt</label>
-                                                    <input type="text" id="translatevn<%= i %>" name="translatevn<%= i %>" class="form-control underlined" placeholder="dịch tiếng việt cho field">
+                                        </div>
+                                        <div class="card-block">
+                                            <% for(var i = 0; i < result.gridfield; i++) { %>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Tên Field
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <input type="text" id="nameFieldGrid<%=i+1%>" name="nameFieldGrid<%=i+1%>" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <%}%>
+                                        </div>
+                                    </div>
+                                    <!-- field dùng cho model search -->
+                                    <div class="card card-default">
+                                        <div class="card-header">
+                                            <div class="header-block">
+                                                <p class="title"> Field dùng cho model search </p>
                                             </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Dịch tiếng anh</label>
-                                                    <input type="text" id="translateen<%= i %>" name="translateen<%= i %>" class="form-control underlined" placeholder="dịch tiếng anh cho field">
+                                        </div>
+                                        <div class="card-block">
+                                            <% for(var i = 0; i < result.modelsearchfield; i++) { %>
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Kiểu dữ liệu
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <select id="typeFieldModelSearch<%=i+1%>" name="typeFieldModelSearch<%=i+1%>" class="form-control" placeholder="Chọn 1 kiểu dữ liệu">
+                                                                <option>string</option>
+                                                                <option>bool ?</option>
+                                                                <option>Guil</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Tên Field
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <input type="text" id="nameFieldModelSearch<%=i+1%>" name="nameFieldModelSearch<%=i+1%>" class="form-control underlined"
+                                                                placeholder="nhập tên field: vd: ProfileID">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Dịch tiếng việt
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <input type="text" id="transalteFieldModelSearchvn<%=i+1%>" name="transalteFieldModelSearchvn<%=i+1%>" class="form-control underlined"
+                                                                placeholder="dịch tiếng việt cho field">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Dịch tiếng anh
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <input type="text" id="transalteFieldModelSearchen<%=i+1%>" name="transalteFieldModelSearchen<%=i+1%>" class="form-control underlined"
+                                                                placeholder="dịch tiếng anh cho field">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <%}%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- table permission -->
+                                <div role="tabpanel" class="tab-pane fade show" id="permission">
+                                    <% for(var i = 0; i < result.numberkeypermission; i++) { %>
+                                        <div class="form-group">
+                                            <label class="control-label">Key phân quyền</label>
+                                            <input type="text" id="Keypermission<%=i+1%>" name="Keypermission<%=i+1%>" class="form-control underlined" placeholder="Nhập thông tin key phân quyền vd: btnTrafic hoặc Sal_Productive_Index">
+                                        </div>
+                                        <%}%>
+                                </div>
+                                <!-- table enum -->
+                                <div role="tabpanel" class="tab-pane fade show" id="enum">
+                                    <!-- field dùng cho model search -->
+                                    <div class="card card-default">
+                                        <div class="card-header">
+                                            <div class="header-block">
+                                                <p class="title"> Enum đặc biệt </p>
+                                            </div>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="form-group">
+                                                <label class="control-label">Tên Enum</label>
+                                                <input type="text" id="nameEnum" name="nameEnum" class="form-control underlined" placeholder="nhập tên enum: vd: TypeQuantity">
+                                            </div>
+                                            <% for(var i = 0; i < result.enumnumber; i++) { %>
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Tên thành phần enum
+                                                                <%=i+1%>
+                                                            </label>
+                                                            <input type="text" id="nameEnumChild<%=i+1%>" name="nameEnumChild<%=i+1%>" class="form-control underlined" placeholder="nhập tên thành phần của enum: vd: E_OverTime">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Mô tả</label>
+                                                            <input type="text" id="descriptionEnum<%=i+1%>" name="descriptionEnum<%=i+1%>" class="form-control underlined" placeholder="nhập thông tin mô tả cho enum vd: Tăng ca">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <%}%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- table sql-->
+                                <div role="tabpanel" class="tab-pane fade show" id="sql">
+                                    <% for(var i = 0; i < result.storenumber; i++) { %>
+                                        <div class="form-group">
+                                            <label class="control-label">Tên store
+                                                <%=i+1%>
+                                            </label>
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <input type="text" id="namestore<%=i+1%>" name="namestore<%=i+1%>" class="form-control underlined" placeholder="nhập thông tin tên: vd: Cat_sp_get_HealthTreatmentPlace">
+                                                </div>
+                                                <div class="col-2">
+                                                    <input type="checkbox" id="checkById<%=i+1%>" name="checkById<%=i+1%>" value="true">Store getById</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <%}%>
-
-                                    </div>
+                                            <span>Lưu ý: Không lấy thông tin tiền tố hrm_</span>
                                 </div>
-                                <!-- field dùng cho enity -->
-                                <div class="card card-default">
-                                    <div class="card-header">
-                                        <div class="header-block">
-                                            <p class="title"> Field dùng cho enity </p>
-
-                                        </div>
-                                        <button type="button" class="btn btn-default">Thêm Field</button>
-                                    </div>
-                                    <div class="card-block">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Kiểu dữ liệu</label>
-                                                    <select id="catalog" class="form-control" placeholder="Chọn 1 kiểu dữ liệu" name="catalog">
-                                                        <option>string</option>
-                                                        <option>bool ?</option>
-                                                        <option>Guil</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Tên Field</label>
-                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Dịch tiếng việt</label>
-                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="dịch tiếng việt cho field">
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Dịch tiếng anh</label>
-                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="dịch tiếng anh cho field">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- field dùng cho lưới -->
-                                <div class="card card-default">
-                                    <div class="card-header">
-                                        <div class="header-block">
-                                            <p class="title"> Field dùng cho lưới </p>
-
-                                        </div>
-                                        <button type="button" class="btn btn-default">Thêm Field</button>
-                                    </div>
-                                    <div class="card-block">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Tên Field</label>
-                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- field dùng cho model search -->
-                                <div class="card card-default">
-                                    <div class="card-header">
-                                        <div class="header-block">
-                                            <p class="title"> Field dùng cho model search </p>
-
-                                        </div>
-                                        <button type="button" class="btn btn-default">Thêm Field</button>
-                                    </div>
-                                    <div class="card-block">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Kiểu dữ liệu</label>
-                                                    <select id="catalog" class="form-control" placeholder="Chọn 1 kiểu dữ liệu" name="catalog">
-                                                        <option>string</option>
-                                                        <option>bool ?</option>
-                                                        <option>Guil</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Tên Field</label>
-                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Dịch tiếng việt</label>
-                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="dịch tiếng việt cho field">
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Dịch tiếng anh</label>
-                                                    <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="dịch tiếng anh cho field">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                        <!-- table permission -->
-                        <div role="tabpanel" class="tab-pane fade show" id="permission">
-                            <div class="form-group">
-                                <label class="control-label">Key phân quyền cho màn hình</label>
-                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập thông tin key phân quyền vd: Index, ProductiveCoveyor,...">
+                                <p id="demo"></p>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label">Key phân quyền cho button</label>
-                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin key phân quyền cho button vd: btnTrafic">
-                            </div>
-                        </div>
-                        <!-- table enum -->
-                        <div role="tabpanel" class="tab-pane fade show" id="enum">
-                            <!-- field dùng cho model search -->
-                            <div class="card card-default">
-                                <div class="card-header">
-                                    <div class="header-block">
-                                        <p class="title"> Enum đặc biệt </p>
-                                    </div>
-                                    <button type="button" class="btn btn-default">Thêm Enum</button>
-                                </div>
-                                <div class="card-block">
-                                    <div class="form-group">
-                                        <label class="control-label">Tên Enum</label>
-                                        <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập tên enum: vd: TypeQuantity">
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <div class="form-group">
-                                                <label class="control-label">Tên thành phần enum</label>
-                                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập tên thành phần của enum: vd: E_OverTime">
-                                            </div>
-                                        </div>
-                                        <div class="col-8">
-                                            <div class="form-group">
-                                                <label class="control-label">Mô tả</label>
-                                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập thông tin mô tả cho enum vd: Tăng ca">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- table sql-->
-                        <div role="tabpanel" class="tab-pane fade show" id="sql">
-                            <button type="button" class="btn btn-default">Thêm store</button>
-                            <div class="form-group">
-                                <label class="control-label">Tên store dùng để lọc, search</label>
-                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập thông tin tên store lọc: vd: Cat_sp_get_HealthTreatmentPlace">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Tên store dùng để lấy một đối tượng</label>
-                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin tên store lấy một ID vd: Cat_sp_get_HealthTreatmentPlaceByID">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Tên store dùng để lấy nhiều đối tượng</label>
-                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin tên store lấy nhiều ID vd: Cat_sp_get_HealthTreatmentPlaceIDs">
-                            </div>
-                            <span>Lưu ý: Không lấy thông tin tiền tố hrm_</span>
-                        </div>
-                        <p id="demo"></p>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Start Render</button>
-                    </form>
+                            <button type="submit" class="btn btn-primary">Start Render</button>
+                        </form>
                 </article>
 
 
 
+                </div>
             </div>
         </div>
-    </div>
-    <script src="./js/vendor.js"></script>
-    <script src="./js/app.js"></script>
+        <script src="./js/vendor.js"></script>
+        <script src="./js/app.js"></script>
 </body>
 
 </html>

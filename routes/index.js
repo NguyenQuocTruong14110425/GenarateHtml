@@ -4,339 +4,156 @@ const fs = require('fs');
 var createHTML = require('create-html')
 var template = require('html-template');
 var getData = require('./Controller/getData');
+var setData = require('./Controller/setData');
+var TranferData = require('../lib/tranfer/TranferData');
+var TranferService = require('../lib/tranfer/TranferService');
 
-var totalFielModel=2;
+const DataBasic = require('./config/DataBasic');
+const DataRender = require('./config/DataRender');
+const Setting = require('./config/Setting');
+
+var SaveTemp = {
+  DataBasic: DataBasic,
+  DataRender: DataRender
+};
 router.get('/', function (req, res, next) {
-  res.render("index.ejs",{totalFielModel:totalFielModel});
+  message = [{
+    status: "Chào mừng tới với genetor code tool",
+    message: "Hello! hãy bắt đầu dự án của bạn"
+  }];
+  res.render("index", { setting: Setting, message: message });
 });
 router.get('/rendercode', function (req, res, next) {
-  res.render("rendercode.ejs",{totalFielModel:totalFielModel});
-});
-router.post('/addfield', function (req, res, next) {
-    totalFielModel=req.body.count;
-   res.send(totalFielModel);
+  message = [{
+    status: "Chào mừng tới bàn làm việc",
+    message: "Hãy trở về khởi tạo dự án của bạn tại trang chủ"
+  }];
+  res.render("rendercode", { result: SaveTemp.DataBasic,setting: Setting,message: message});
 });
 router.post('/', function (req, res, next) {
+  var data = new TranferData(DataBasic);
+  data.SetData(req.body);
+  SaveTemp.DataBasic = data.getdata;
+  message = [{
+    status: "Chào mừng tới bàn làm việc",
+    message: "Hãy trở về khởi tạo dự án của bạn tại trang chủ"
+  }];
+  res.render("rendercode", { result: data.getdata,message: message });
+});
+router.post('/rendercode', function (req, res, next) {
+  var message = [];
   var NameView = "ProductiveConveyorInfo";
   var TypeParam = "string";
   var ParamView = "id";
-  var NameController = "Sal_ProductiveConveyor";
-  var field = ["HRM_Sal_HoldSalary_IsRestoreRequest","HRM_Sal_HoldSalary_CutoffDuration2","HRM_Sal_HoldSalary_IsAppreved"];
-  var PermissionData = ["HRM_Sal_HoldSalary_Index","HRM_Sal_HoldSalary_Index_bntTrafic"];
-  var SQLData = ["Cat_sp_get_HealthTreatmentPlace","Cat_sp_get_HealthTreatmentPlaceByID","Cat_sp_get_HealthTreatmentPlaceByIDs"];
-  var SQLNameById = "Cat_sp_get_HealthTreatmentPlaceByID";
-  var Table = "HoldSalary";
-  var namePerson = "Truong.Nguyen";
-  var DateDoTask = "16/01/2018";
-  var IdTask = "952661";
-  var fieldData = [
-    {FieldName:"HRM_Sal_HoldSalary_IsRestoreRequest",
-    Translate:"Tập tin"
-    },
-    {FieldName:"Hre_FacilityIssue_EvictionNo",
-    Translate:"Số biên bản"
-    },
-    {FieldName:"EvictAmount",
-    Translate:"Số lượng chưa thu hồi"
-    }
-  ];
-  var EnumData = [
-    {EnumName:"HRM_Sal_HoldSalary_IsRestoreRequest",
-    Description:"Tập tin"
-    },
-    {FieldName:"Hre_FacilityIssue_EvictionNo",
-    Translate:"Số biên bản"
-    },
-    {FieldName:"EvictAmount",
-    Translate:"Số lượng chưa thu hồi"
-    }
-  ];
-  var EnumData = [
-    {EnumName:"HRM_Sal_HoldSalary_IsRestoreRequest",
-    Description:"Tập tin"
-    },
-    {EnumName:"Hre_FacilityIssue_EvictionNo",
-    Description:"Số biên bản"
-    },
-    {EnumName:"EvictAmount",
-    Description:"Số lượng chưa thu hồi"
-    }
-  ];
-  OtherResourceEnum = [
-    {moduleEnum:"Salary",
-    NameEnum:"Sal_HoldSalary",
-    orderExt:"Index"
-    },
-    {moduleEnum:"Salary",
-    NameEnum:"Sal_HoldSalary",
-    orderExt:"bntTrafic"
-    }
-  ];
-
-  EntityData =[
-    {
-      TypeData:"string",
-      FieldName:"ProfileName"
-    },
-    {
-      TypeData:"DateTime?",
-      FieldName:"DateHire"
-    },
-    {
-      TypeData:"Guid?",
-      FieldName:"ResReasonID"
-    },
-    {
-      TypeData:"float",
-      FieldName:"WorkHours"
-    },
-    {
-      TypeData:"string",
-      FieldName:"ProfileIds"
-    },
-    {
-      TypeData:"string",
-      FieldName:"Note1"
-    },
-  ]
-
- FieldModelData =[
-    {
-      TypeData:"string",
-      FieldName:"ProfileName",
-      Translate:`${NameController}_`+"ProfileName"
-    },
-    {
-      TypeData:"DateTime?",
-      FieldName:"DateHire",
-      Translate:`${NameController}_`+"DateHire"
-    },
-    {
-      TypeData:"Guid?",
-      FieldName:"ResReasonID",
-      Translate:`${NameController}_`+"ResReasonID"
-    },
-    {
-      TypeData:"float",
-      FieldName:"WorkHours"
-    },
-    {
-      TypeData:"string",
-      FieldName:"ProfileIds",
-    },
-    {
-      TypeData:"string",
-      FieldName:"Note",
-      Translate:`${NameController}_`+"Note"
-    },
-  ]
-
-  FieldModelGrid =["ProfileName","ProfileID","WorkHours","Note","ResReasonID"]
-
-  FieldModelSearch =[
-    {
-      TypeData:"string",
-      FieldName:"ProfileName",
-      Translate: `${NameController}_`+"ProfileName"
-    },
-    {
-      TypeData:"DateTime?",
-      FieldName:"DateHire",
-      Translate:`${NameController}_`+"DateHire"
-    },
-    {
-      TypeData:"Guid?",
-      FieldName:"ResReasonID",
-      Translate:`${NameController}_`+"ResReasonID"
-    },
-    {
-      TypeData:"float",
-      FieldName:"WorkHours",
-      Translate:`${NameController}_`+"WorkHours"
-    },
-    {
-      TypeData:"string",
-      FieldName:"ProfileIds",
-    },
-    {
-      TypeData:"string",
-      FieldName:"Note",
-      Translate:`${NameController}_`+"Note"
-    },
-  ]
-
-  FieldModelExport =[
-    {
-      TypeData:"string",
-      FieldName:"ProfileName",
-    },
-    {
-      TypeData:"DateTime?",
-      FieldName:"DateHire",
-    },
-    {
-      TypeData:"Guid?",
-      FieldName:"ResReasonID",
-    },
-    {
-      TypeData:"Guid",
-      FieldName:"ExportId",
-    },
-    {
-      TypeData:"bool",
-      FieldName:"IsExport",
-    },
-    {
-      TypeData:"string",
-      FieldName:"ValueFields",
-    },
-  ]
-  getData.BuildController(NameView, TypeParam, ParamView, NameController, function (err, resutl) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(resutl)
-    }
+  var NameController = SaveTemp.DataBasic.nametable;
+  var sortNametable = SaveTemp.DataBasic.nametable.replace(SaveTemp.DataBasic.modulname + "_", "")
+  var namePerson = SaveTemp.DataBasic.author;
+  var DateDoTask = SaveTemp.DataBasic.datecreate;
+  var IdTask = SaveTemp.DataBasic.idtask;
+  var nameEnum = req.body.nameEnum;
+  InputData = new setData(req.body, SaveTemp.DataBasic)
+  OutputData = new getData(NameController, namePerson, DateDoTask, IdTask)
+  InputData.setTitleScreen();
+  InputData.setFieldModel();
+  InputData.setFieldEntity();
+  InputData.setFieldModelSearch();
+  InputData.setFieldModelExport();
+  InputData.setFieldGrid();
+  InputData.setPermission();
+  InputData.setEnumData();
+  InputData.setStoreSQL();
+  //khởi tạo controller
+  OutputData.BuildController(NameView, TypeParam, ParamView, function (err, result) {
+    var _mess = InputData.PrintMessage(err, result);
+    message.push(_mess)
   });
-
-
-  getData.BuildConstantDisplay(
-    NameController, 
-    namePerson, 
-    DateDoTask, 
-    IdTask,
-    field,
-    Table,
-    Table,
-    function (err, resutl) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(resutl)
+  // Khởi tạo constant display
+  OutputData.BuildConstantDisplay(
+    InputData.getData.ConstantDislay,
+    sortNametable,
+    sortNametable,
+    function (err, result) {
+      var _mess = InputData.PrintMessage(err, result);
+      message.push(_mess)
+    });
+  //Khởi tạo dịch tiếng việt
+  OutputData.BuildLangVN(
+    InputData.getData.TranslateVN,
+    function (err, result) {
+      var _mess = InputData.PrintMessage(err, result);
+      message.push(_mess)
+    });
+  //Khởi tạo dịch tiếnganh
+  OutputData.BuildLangEN(
+    InputData.getData.TranslateEN,
+    function (err, result) {
+      var _mess = InputData.PrintMessage(err, result);
+      message.push(_mess)
+    });
+  //Khởi tạo file enum
+  OutputData.BuildEnum(
+    nameEnum,
+    InputData.getData.EnumData,
+    InputData.getData.OtherResourceEnum,
+    function (err, result) {
+      var _mess = InputData.PrintMessage(err, result);
+      message.push(_mess)
+    });
+  //khởi tạo key permission
+  OutputData.BuildConstantPermission(
+    InputData.getData.KeyPermission,
+    function (err, result) {
+      var _mess = InputData.PrintMessage(err, result);
+      message.push(_mess)
+    });
+  // khởi tạo constant sql
+  OutputData.BuildConstantSQL(
+    InputData.getData.Store,
+    function (err, result) {
+      var _mess = InputData.PrintMessage(err, result);
+      message.push(_mess)
+    });
+  // khởi tạo api controller
+  var SQLNameById = "";
+  for (let index = 0; index < SaveTemp.DataBasic.storenumber; index++) {
+    console.log(req.body[`checkById${index + 1}`])
+    if (req.body[`checkById${index + 1}`] == true) {
+      var store = req.body[`namestore${index + 1}`].replace("hrm_", "")
+      if (store) {
+        SQLNameById = store;
+      }
+      else {
+        SQLNameById = req.body[`namestore${index + 1}`]
+      }
     }
-  });
-
-  
-  getData.BuildLangVN(
-    NameController, 
-    namePerson, 
-    DateDoTask, 
-    IdTask,
-    fieldData,
-    function (err, resutl) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(resutl)
-    }
-  });
-
-  getData.BuildLangEN(
-    NameController, 
-    namePerson, 
-    DateDoTask, 
-    IdTask,
-    fieldData,
-    function (err, resutl) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(resutl)
-    }
-  });
-
-  getData.BuildEnum(
-    NameController, 
-    namePerson, 
-    DateDoTask, 
-    IdTask,
-    null,
-    null,
-    OtherResourceEnum,
-    function (err, resutl) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(resutl)
-    }
-  });
-
-  getData.BuildConstantPermission(
-    NameController, 
-    namePerson, 
-    DateDoTask, 
-    IdTask,
-    PermissionData,
-    function (err, resutl) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(resutl)
-    }
-  });
-
-  getData.BuildConstantSQL(
-    NameController, 
-    namePerson, 
-    DateDoTask, 
-    IdTask,
-    SQLData,
-    function (err, resutl) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(resutl)
-    }
-  });
-
-  getData.BuilldApiController(
-    NameController, 
-    namePerson, 
-    DateDoTask, 
-    IdTask,
+  }
+  OutputData.BuilldApiController(
     SQLNameById,
-    function (err, resutl) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(resutl)
-    }
-  });
-
-  getData.BuildEnitity(
-    NameController, 
-    namePerson, 
-    DateDoTask, 
-    IdTask,
-    EntityData,
-    function (err, resutl) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(resutl)
-    }
-  });
-
-  getData.BuildModel(
-    NameController, 
-    namePerson, 
-    DateDoTask, 
-    IdTask,
-    FieldModelData,
-    FieldModelGrid,
-    FieldModelSearch,
-    FieldModelExport,
-    function (err, resutl) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(resutl)
-    }
-  });
-
-  res.render("index.ejs");
-  });
+    function (err, result) {
+      var _mess = InputData.PrintMessage(err, result);
+      message.push(_mess)
+    });
 
 
-  
-  module.exports = router;
+  OutputData.BuildEnitity(
+    InputData.getData.FieldEnity,
+    function (err, result) {
+      var _mess = InputData.PrintMessage(err, result);
+      message.push(_mess)
+    });
+
+  OutputData.BuildModel(
+    InputData.getData.FieldModel,
+    InputData.getData.FieldGird,
+    InputData.getData.FieldModelSearch,
+    InputData.getData.FieldModelExport,
+    function (err, result) {
+      var _mess = InputData.PrintMessage(err, result);
+      message.push(_mess)
+    });
+  res.render("index", { setting: Setting,message: message });
+});
+
+
+
+module.exports = router;

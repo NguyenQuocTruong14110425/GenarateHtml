@@ -15,22 +15,29 @@ var getModel = require('../../lib/model/getModel');
 
 const fs = require('fs');
 class getData {
-    constructor() { }
+    constructor(Controller,
+        NamePerson,
+        DateDoTask,
+        IdTask) {
+            this.Controller=Controller,
+            this.NamePerson=NamePerson,
+            this.DateDoTask=DateDoTask,
+            this.IdTask=IdTask
+         }
     //hàm build controller
     BuildController(NameView,
         TypeParam,
         ParamView,
-        NameController,
         callback) {
         var resultLibrary = new getLibrary();
         var resultController = new getController(
             NameView,
             TypeParam,
             ParamView,
-            NameController
+            this.Controller
         );
         var dir = './build/Controller';
-        var namefile = `${NameController}Controller.cs`;
+        var namefile = `${this.Controller}Controller.cs`;
         FileSystem.writeAndAppendFileData(dir, namefile, resultLibrary.initLibrary, resultController.InitController, function (err, message) {
             if (err) return callback(err);
             else {
@@ -40,19 +47,16 @@ class getData {
     };
 
     //hàm build ConstantDisplay
-    BuildConstantDisplay(Controller,
-        NamePerson,
-        DateDoTask,
-        IdTask,
+    BuildConstantDisplay(
         Field,
         GridName,
         PopupName,
         callback) {
         var ConstantDisplay = new getConstantDisplay(
-            Controller,
-            NamePerson,
-            DateDoTask,
-            IdTask
+            this.Controller,
+            this.NamePerson,
+            this.DateDoTask,
+            this.IdTask
         );
         var resutlField = "";
         Field.forEach(element => {
@@ -73,21 +77,18 @@ class getData {
     };
 
     // build Lang VN
-    BuildLangVN(Controller,
-        NamePerson,
-        DateDoTask,
-        IdTask,
+    BuildLangVN(
         FieldData,
         callback) {
         var LangVN = new getLangVN(
-            Controller,
-            NamePerson,
-            DateDoTask,
-            IdTask
+            this.Controller,
+            this.NamePerson,
+            this.DateDoTask,
+            this.IdTask
         );
         var resultLangVN = "";
         FieldData.forEach(element => {
-            resultLangVN += LangVN.SetLangtranslateVN(element.FieldName, element.Translate);
+            resultLangVN += LangVN.SetLangtranslateVN(element.Key, element.Translate);
         });
         var resultData = LangVN.Init(resultLangVN)
         var dir = './build/Settings';
@@ -101,21 +102,18 @@ class getData {
     }
 
     // build Lang EN
-    BuildLangEN(Controller,
-        NamePerson,
-        DateDoTask,
-        IdTask,
+    BuildLangEN(
         FieldData,
         callback) {
         var LangEN = new getLangEN(
-            Controller,
-            NamePerson,
-            DateDoTask,
-            IdTask
+            this.Controller,
+            this.NamePerson,
+            this.DateDoTask,
+            this.IdTask
         );
         var resultLangEN = "";
         FieldData.forEach(element => {
-            resultLangEN += LangEN.SetLangtranslateEN(element.FieldName, element.Translate);
+            resultLangEN += LangEN.SetLangtranslateEN(element.Key, element.Translate);
         });
         var resultData = LangEN.Init(resultLangEN)
         var dir = './build/Settings';
@@ -129,19 +127,16 @@ class getData {
     }
 
     // build Lang EN
-    BuildEnum(Controller,
-        NamePerson,
-        DateDoTask,
-        IdTask,
+    BuildEnum(
         EnumData,
         NameEnum,
         OtherResourceEnum,
         callback) {
         var EnumConstant = new getEnumConstant(
-            Controller,
-            NamePerson,
-            DateDoTask,
-            IdTask
+            this.Controller,
+            this.NamePerson,
+            this.DateDoTask,
+            this.IdTask
         );
         var resultEnum = "";
         var resultData = "";
@@ -169,17 +164,14 @@ class getData {
     }
 
     // build constant permission
-    BuildConstantPermission(Controller,
-        NamePerson,
-        DateDoTask,
-        IdTask,
+    BuildConstantPermission(
         PermissionData,
         callback) {
         var ConstantPermission = new getConstantPermission(
-            Controller,
-            NamePerson,
-            DateDoTask,
-            IdTask
+            this.Controller,
+            this.NamePerson,
+            this.DateDoTask,
+            this.IdTask
         );
         var resultPermission = "";
         PermissionData.forEach(element => {
@@ -196,17 +188,14 @@ class getData {
         })
     }
     // build constant sql
-    BuildConstantSQL(Controller,
-        NamePerson,
-        DateDoTask,
-        IdTask,
+    BuildConstantSQL(
         SQLData,
         callback) {
         var ConstantSQL = new getConstantSQL(
-            Controller,
-            NamePerson,
-            DateDoTask,
-            IdTask
+            this.Controller,
+            this.NamePerson,
+            this.DateDoTask,
+            this.IdTask
         );
         var resultSQL = "";
         SQLData.forEach(element => {
@@ -223,21 +212,18 @@ class getData {
         })
     }
     // build api controller
-    BuilldApiController(Controller,
-        NamePerson,
-        DateDoTask,
-        IdTask,
+    BuilldApiController(
         SQLNameById,
         callback) {
         var ApiController = new getApiController(
-            Controller,
-            NamePerson,
-            DateDoTask,
-            IdTask
+            this.Controller,
+            this.NamePerson,
+            this.DateDoTask,
+            this.IdTask
         );
         var resultData = ApiController.Init(SQLNameById);
         var dir = './build/HRM_Presentation_Hr_Service';
-        var namefile = `${Controller}Controller.cs`;
+        var namefile = `${this.Controller}Controller.cs`;
         FileSystem.writeFileData(dir, namefile, resultData, function (err, message) {
             if (err) return callback(err);
             else {
@@ -246,25 +232,22 @@ class getData {
         })
     }
     // build entity
-    BuildEnitity(Controller,
-        NamePerson,
-        DateDoTask,
-        IdTask,
+    BuildEnitity(
         FieldData,
         callback) {
         var Entity = new getEntity(
-            Controller,
-            NamePerson,
-            DateDoTask,
-            IdTask
+            this.Controller,
+            this.NamePerson,
+            this.DateDoTask,
+            this.IdTask
         );
         var resultEntity = "";
         FieldData.forEach(element => {
-            resultEntity += Entity.SetFieldProperties(element.TypeData, element.FieldName);
+            resultEntity += Entity.SetFieldProperties(element.TypeData, element.NameField);
         });
         var resultData = Entity.Init(resultEntity)
         var dir = './build/Enity';
-        var namefile = `${Controller}Enity.cs`;
+        var namefile = `${this.Controller}Enity.cs`;
         FileSystem.writeFileData(dir, namefile, resultData, function (err, message) {
             if (err) return callback(err);
             else {
@@ -273,20 +256,17 @@ class getData {
         })
     }
     // build model
-    BuildModel(Controller,
-        NamePerson,
-        DateDoTask,
-        IdTask,
+    BuildModel(
         FieldModelData,
         FieldGridData,
         FieldModelSearch,
         FieldModelExport,
         callback) {
         var Model = new getModel(
-            Controller,
-            NamePerson,
-            DateDoTask,
-            IdTask
+            this.Controller,
+            this.NamePerson,
+            this.DateDoTask,
+            this.IdTask
         );
         var resultFieldModel = "";
         var resultFieldModelGrid = "";
@@ -295,7 +275,7 @@ class getData {
         if(FieldModelData)
         {
             FieldModelData.forEach(element => {
-                resultFieldModel += Model.SetFieldTranslateProperties(element.TypeData, element.FieldName,element.Translate);
+                resultFieldModel += Model.SetFieldTranslateProperties(element.TypeData, element.NameField,element.Translate);
             });
         }
         if(FieldGridData)
@@ -307,18 +287,18 @@ class getData {
         if(FieldModelSearch)
         {
             FieldModelSearch.forEach(element => {
-                resultFieldModelSearch += Model.SetFieldTranslateProperties(element.TypeData, element.FieldName,element.Translate);
+                resultFieldModelSearch += Model.SetFieldTranslateProperties(element.TypeData, element.NameField,element.Translate);
             });
         }
         if(FieldModelExport)
         {
             FieldModelExport.forEach(element => {
-                resultFieldModelExport += Model.SetFieldTranslateProperties(element.TypeData, element.FieldName,element.Translate);
+                resultFieldModelExport += Model.SetFieldTranslateProperties(element.TypeData, element.NameField,element.Translate);
             });
         }
         var resultData = Model.Init(resultFieldModel,resultFieldModelGrid,resultFieldModelSearch,resultFieldModelExport)
         var dir = './build/Model';
-        var namefile = `${Controller}Model.cs`;
+        var namefile = `${this.Controller}Model.cs`;
         FileSystem.writeFileData(dir, namefile, resultData, function (err, message) {
             if (err) return callback(err);
             else {
@@ -329,4 +309,4 @@ class getData {
 
 }
 
-module.exports = new getData();
+module.exports =  getData;

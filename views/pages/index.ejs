@@ -17,7 +17,7 @@
     <script type="text/javascript">
         // function show()
         // {
-		
+
         //         console.log('select_link clicked');
         //         var data = {}
         //         data.count=3
@@ -34,16 +34,16 @@
         //             }
         //         });
         //     }
-        $(document).ready(function(){
-        $("#btn2").click(function(){
-            var data = {}
-            data.count=4
-            $.post("http://localhost:3000/addfield",data, function(data){
-                
-            alert("Data: " + data );
+        $(document).ready(function () {
+            $("#btn2").click(function () {
+                var data = {}
+                data.count = 4
+                $.post("http://localhost:3000/addfield", data, function (data) {
+
+                    alert("Data: " + data);
+                });
+            })
         });
-        })
-    });
     </script>
 </head>
 
@@ -77,95 +77,120 @@
 
                     <!-- form render-->
                     <div class="card items">
-                        <form id="testimonial form" method = "POST" action = "/basicrender">
-                            <div class="form-group">
-                                <label class="control-label">Tên bảng</label>
-                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập thông tin tên bảng: vd: Sal_ProductivenConver">
+                        <form id="testimonial form" method="POST" action="/">
+                            <div class="row">
+                                <div class="col-6">
+                                        <label class="control-label">Phân hệ
+                                            </label>
+                                        <select id="modulekey" name="modulekey" class="form-control" placeholder="Chọn 1 kiểu dữ liệu" >
+                                            <% for(var i = 0; i < setting.moduleData.length; i++) { %>
+                                            <option value="<%=setting.moduleData[i].key%>"> <%=setting.moduleData[i].description%></option>
+                                            <%} %>
+                                        </select>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Tên bảng</label>
+                                        <input type="text" id="nametable" name="nametable" class="form-control underlined" placeholder="nhập thông tin tên bảng: vd: Sal_ProductivenConver">
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="control-label">Dịch tên màn hình tiếng việt</label>
-                                        <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="nhập dịch tiếng việt: vd: Nhân viên đang làm việc">
+                                        <input type="text" id="tabletranslatevn" name="tabletranslatevn" class="form-control underlined" placeholder="nhập dịch tiếng việt: vd: Nhân viên đang làm việc">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label class="control-label">Dịch tên màn hình tiếng anh</label>
-                                        <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập dịch tiếng anh vd: Employee working">
+                                        <input type="text" id="tabletranslateen" name="tabletranslateen" class="form-control underlined" placeholder="Nhập dịch tiếng anh vd: Employee working">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                            <div class="form-group">
-                                <label class="control-label">Người tạo</label>
-                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin người làm/ người tạo">
-                            </div>
-                            </div>
-                            <div class="col-3">
-                            <div class="form-group">
-                                <label class="control-label">Id Task mantis</label>
-                                <input type="text" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin id task làm việc tren mantis.vnresource.net">
-                            </div>
-                            </div>
-                            <div class="col-3">
-                            <div class="form-group">
-                                <label class="control-label">Ngày tạo</label>
-                                <input type="date" id="nameproduct" name="nameproduct" class="form-control underlined" placeholder="Nhập thông tin ngày tạo/ ngày làm">
-                            </div>
-                            </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Người tạo</label>
+                                        <input type="text" id="author" name="author" class="form-control underlined" placeholder="Nhập thông tin người làm/ người tạo">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Id Task mantis</label>
+                                        <input type="text" id="idtask" name="idtask" class="form-control underlined" placeholder="Nhập thông tin id task làm việc tren mantis.vnresource.net">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Ngày tạo</label>
+                                        <input type="date" id="datecreate" name="datecreate" class="form-control underlined" placeholder="Nhập thông tin ngày tạo/ ngày làm">
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Nội dung task</label>
-                                <textarea type="text" rows="2" id="shortdescription" name="shortdescription" class="form-control underlined" placeholder="Nhập tiêu đề, nội dung ngắn gọn mô tả cho màn hình"></textarea>
+                                <textarea type="text" rows="2" id="taskdescription" name="taskdescription" class="form-control underlined" placeholder="Nhập tiêu đề, nội dung ngắn gọn mô tả cho màn hình"></textarea>
                             </div>
                             <div class="row">
                                 <div class="col-3">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label class="control-label">Số  field entity</label>
-                                            <input type="number" id="namefield" name="namefield" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                            <label class="control-label">Số field entity</label>
+                                            <input type="number" id="entityfield" name="entityfield" class="form-control underlined" placeholder="nhập số field dùng cho entity">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group">
                                         <label class="control-label">Số field model</label>
-                                        <input type="number" id="namefield" name="namefield" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                        <input type="number" id="modelfield" name="modelfield" class="form-control underlined" placeholder="nhập số field dùng cho model">
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group">
                                         <label class="control-label">Số field cho lưới</label>
-                                        <input type="number" id="translatevn" name="translatevn" class="form-control underlined" placeholder="dịch tiếng việt cho field">
+                                        <input type="number" id="gridfield" name="gridfield" class="form-control underlined" placeholder="nhập số field cho lưới">
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group">
                                         <label class="control-label">Số field model search</label>
-                                        <input type="number" id="translateen" name="translateen" class="form-control underlined" placeholder="dịch tiếng anh cho field">
+                                        <input type="number" id="modelsearchfield" name="modelsearchfield" class="form-control underlined" placeholder="nhập số field cho model search">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-3">
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label class="control-label">Số Store hoặc funtion</label>
-                                            <input type="number" id="namefield" name="namefield" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                            <input type="number" id="storenumber" name="storenumber" class="form-control underlined" placeholder="nhập số field khai báo store">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-3">
                                     <div class="form-group">
                                         <label class="control-label">Số field enum</label>
-                                        <input type="number" id="namefield" name="namefield" class="form-control underlined" placeholder="nhập tên field: vd: ProfileID">
+                                        <input type="number" id="enumnumber" name="enumnumber" class="form-control underlined" placeholder="nhập số field cho enum đặc biệt">
                                     </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Số key quyền</label>
+                                        <input type="number" id="numberkeypermission" name="numberkeypermission" class="form-control underlined" placeholder="nhập số key quyền cho button">
                                     </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Số cụm control trên màn hình</label>
+                                        <input type="number" id="numbercontrol" name="numbercontrol" class="form-control underlined" placeholder="nhập số cụm control trên panel search">
+                                    </div>
+                                </div>
                             </div>
-                        <button style="float: right;"type="submit" class="btn btn-primary">Next step</button>
-                    </form>
+                            <button style="float: right;" type="submit" class="btn btn-primary">Next step</button>
+                        </form>
                     </div>
                 </article>
             </div>
